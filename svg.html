@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      .svg {
+        width: 500px;
+      }
+    </style>
+    <script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/277/canvas2svg.js"></script>
+  </head>
+  <body>
+    <div class="svg"></div>
+    <script>
+      var dimensions = {x: 1700, y: 1100} // The plotters size
+      var ctx = new C2S(dimensions.x,dimensions.y);
+
+      ctx.strokeRect(20,20,dimensions.x - 40,dimensions.y - 40);
+
+      let step = 20;
+
+      for( var i = 20; i <= dimensions.x - 40; i+= step ) {
+        for (var j = 20; j <= dimensions.y - 40; j+= step) {
+          var chance = Math.random() > 0.5
+          if( chance ) {
+            ctx.moveTo(i, j);
+            ctx.lineTo(i + step, j + step);
+            ctx.stroke();
+          } else {
+            ctx.moveTo(i + step, j);
+            ctx.lineTo(i, j + step);
+            ctx.stroke();
+          }
+        }
+      }
+
+
+      document.querySelector('.svg').innerHTML = ctx.getSerializedSvg(true);
+    </script>
+  </body>
+</html>
