@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      canvas {
+        display: block;
+        border: 10px solid black;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+
+    <canvas>Not supported</canvas>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const context = canvas.getContext('2d');
+      const sizeX = 1000;
+      const sizeY = 600;
+      const step = 50;
+      // const opacity = 0.001;
+      // const strokeStyle = `rgba(0, 0, 0, 0.3)`;
+      // console.log(strokeStyle);
+      let lines = [];
+
+      canvas.width = sizeX;
+      canvas.height = sizeY;
+
+      context.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+
+      const createLines = () => {
+        lines = [];
+        for (let y = 0; y <= sizeY; y += step) {
+          const line = [];
+          for (let x = 0; x <= sizeX; x += step) {
+            const randomPlusMinus = Math.random() > 0.5 ? 1 : -1;
+            const randomPush = Math.random() * (x/25) * randomPlusMinus;
+
+            line.push({
+              x,
+              y: y + randomPush
+            });
+          }
+          lines.push(line);
+        }
+      }
+
+      const drawLines = () => {
+        for(let i = 0; i < lines.length; i++) {
+
+          const line = lines[i];
+
+          context.beginPath();
+          context.moveTo(line[0].x, line[0].y);
+
+          for (let j = 0; j < line.length; j++) {
+            const point = line[j];
+            context.lineTo(point.x, point.y);
+          }
+          context.stroke();
+        }
+      };
+
+      const draw = (times) => {
+        for (let i = 0; i < times; i++) {
+          createLines();
+          drawLines();
+        }
+      };
+
+      const animate = (times) => {
+        canvas.width = canvas.width;
+        // console.log(times)
+        draw(times);
+        window.requestAnimationFrame(animate);
+      }
+
+      // animate(50);
+      draw(50);
+    </script>
+  </body>
+</html>

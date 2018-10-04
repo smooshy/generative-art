@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+
+    </style>
+  </head>
+  <body>
+
+    <canvas>Not supported</canvas>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const context = canvas.getContext('2d');
+      const size = 500;
+      const step = 25;//Math.random() * 100;
+      console.log('step', step);
+
+      canvas.width = size;
+      canvas.height = size;
+
+      let hue = 0//Math.floor(Math.random() * 360);
+      const sat = 60;
+      const lum = 60;
+
+      const drawLine = (x, y, width, height) => {
+
+        context.beginPath();
+        context.lineWidth = 10;
+        context.strokeStyle = `hsl(${hue}, ${sat}%, ${lum}%)`;
+        context.lineCap = 'round';
+
+        hue = hue + 0.05;
+
+        const random = Math.random() >= 0.5;
+        if (random) {
+          context.moveTo(x, y);
+          context.lineTo(x + width, y + height);
+        } else {
+          context.moveTo(x + step, y);
+          context.lineTo(x, y + height);
+        }
+
+        context.stroke();
+      };
+
+      // moving horizontally
+      const draw = () => {
+        canvas.width = canvas.width;
+        for (let x = 0; x < size; x += step) {
+          for (let y = 0; y < size; y += step) {
+            drawLine(x, y, step, step);
+          }
+        }
+        // window.requestAnimationFrame(draw);
+      };
+
+      draw();
+    </script>
+  </body>
+</html>
